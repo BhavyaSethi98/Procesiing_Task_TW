@@ -1,58 +1,54 @@
 
 import processing.core.PApplet;
 
+import java.util.ArrayList;
+
+
 public class ProcessingOOP extends PApplet {
 
     public static final int WIDTH = 600;
-    public static final int HEIGHT = 600;
-    public static final int DIAMETER = 10;
-    public static final int Y_POST_CIRCLE1 = HEIGHT/5;
-    public static final int Y_POST_CIRCLE2 = (2*HEIGHT)/5;
-    public static final int Y_POST_CIRCLE3 = (3*HEIGHT)/5;
-    public static final int Y_POST_CIRCLE4 = (4*HEIGHT)/5;
-    public static int SPEED_CIRCLE1 = 1;
-    public static int SPEED_CIRCLE2 = 2;
-    public static int SPEED_CIRCLE3 = 3;
-    public static int SPEED_CIRCLE4 = 4;
-    ellipseCreate ellipseCreate1;
-    ellipseCreate ellipseCreate2;
-    ellipseCreate ellipseCreate3;
-    ellipseCreate ellipseCreate4;
+    public static final int HEIGHT = 400;
+    private static final int Y_POST = HEIGHT / 5;
+    private static final int SPEED = 1;
+    private Ball ball;
+    ArrayList<Ball> ballArray = new ArrayList<>();
 
-
-    public static void main(String [] args){ PApplet.main("ProcessingOOP",args);}
+    public static void main(String[] args) {
+        PApplet.main("ProcessingOOP", args);
+    }
 
     @Override
     public void settings() {
-        super.settings();
         size(WIDTH, HEIGHT);
     }
 
     @Override
     public void setup() {
-        super.setup();
-         ellipseCreate1 = new ellipseCreate(Y_POST_CIRCLE1, DIAMETER,SPEED_CIRCLE1);
-         ellipseCreate2 = new ellipseCreate(Y_POST_CIRCLE2, DIAMETER,SPEED_CIRCLE2);
-         ellipseCreate3 = new ellipseCreate( Y_POST_CIRCLE3, DIAMETER,SPEED_CIRCLE3);
-         ellipseCreate4 = new ellipseCreate( Y_POST_CIRCLE4, DIAMETER,SPEED_CIRCLE4);
+        for (int numberOfBalls = 1; numberOfBalls <= 4; numberOfBalls++) {
+            ball = new Ball(Y_POST * numberOfBalls, SPEED * numberOfBalls);
+            ballArray.add(ball);
+        }
     }
 
     @Override
     public void draw() {
-        drawCircle(ellipseCreate1);
-        drawCircle(ellipseCreate2);
-        drawCircle(ellipseCreate3);
-        drawCircle(ellipseCreate4);
+        ballArray.forEach(ball -> ball.move());
     }
 
-    private void drawCircle(ellipseCreate ellipseCreate) {
-        ellipse(ellipseCreate.width,ellipseCreate.height,ellipseCreate.diameter,ellipseCreate.diameter);
-        speedIncrement(ellipseCreate);
+    private class Ball {
+        int x_post_ball = 0;
+        int y_post_ball;
+        public static final int DIAMETER = 10;
+        int speed;
 
+        public Ball(int yPost, int speedOfBall) {
+            this.y_post_ball = yPost;
+            this.speed = speedOfBall;
+        }
+
+        public void move() {
+            ellipse(x_post_ball, y_post_ball, DIAMETER, DIAMETER);
+            x_post_ball += speed;
+        }
     }
-
-    private void speedIncrement(ellipseCreate ellipseCreate) {
-        ellipseCreate.width+=ellipseCreate.speed;
-    }
-
 }
