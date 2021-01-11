@@ -2,12 +2,12 @@ import processing.core.PApplet;
 
 public class ProcessingProcedural extends PApplet {
 
-    public static final int WIDTH = 600;
-    public static final int HEIGHT = 600;
-    public static final int DIAMETER = 10;
+    private final int WIDTH = 600;
+    private final int HEIGHT = 600;
+    private final int DIAMETER = 10;
     private int xPost = 0;
-    private static final int Y_POST = HEIGHT / 5;
-    private int speed = 1;
+    private final int HEIGHT_DIV = HEIGHT / 5;
+    private final int maxBalls = 4;
 
     public static void main(String[] args) {
         PApplet.main("ProcessingProcedural", args);
@@ -21,14 +21,12 @@ public class ProcessingProcedural extends PApplet {
 
     @Override
     public void draw() {
-        for (int i = 1; i <= 4; i++) {
-            drawCircle((xPost * i), (Y_POST * i), DIAMETER);
+        int speed = 1;
+        for (int i = 1; i <= maxBalls; i++) {
+            drawCircle((xPost * speed), (HEIGHT_DIV * i), DIAMETER);
+            speed++;
         }
-        move();
-    }
-
-    private void move() {
-        xPost += speed;
+        xPost++;
     }
 
     private void drawCircle(int xPostCircle, int yPostCircle, int diameter) {
